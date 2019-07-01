@@ -137,12 +137,24 @@ functions:
 #      variable2: value2
 
 # you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::DynamoDB::Table
-#      Properties:
-#        TableName: "testdb"
+resources:
+  Resources:
+    NewResource:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: "testdb"
+        AttributeDefinitions:
+          -
+            AttributeName: "url"
+            AttributeType: "S"
+        KeySchema:
+          - 
+            AttributeName: "url"
+            KeyType: "HASH"
+        ProvisionedThroughput: 
+          ReadCapacityUnits: "5"
+          WriteCapacityUnits: "5"
+
 #  Outputs:
 #     NewOutput:
 #       Description: "Description for the output"
