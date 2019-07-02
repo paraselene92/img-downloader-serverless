@@ -35,11 +35,17 @@ provider:
     - Effect: "Allow"
       Action:
         - "dynamodb:CreateTable"
+        - "dynamodb:UpdateItem"
       Resource:
-        Fn::Join:
-          - ""
-          - - "arn:aws:dynamodb:::"
-            - "/*"
+        Fn::GetAtt: [ "myDB", Arn ]
+#        Fn::Join:
+#          - ""
+#          - !GetAtt
+#            - "testdb"
+#            - "Arn"
+##          - - "arn:aws:dynamodb:::"
+##            - "Ref" : "testdb"
+#            - "/*"
 
 layers:
   layerOne:
@@ -139,7 +145,7 @@ functions:
 # you can add CloudFormation resource templates here
 resources:
   Resources:
-    NewResource:
+    myDB:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: "testdb"
@@ -152,8 +158,8 @@ resources:
             AttributeName: "url"
             KeyType: "HASH"
         ProvisionedThroughput: 
-          ReadCapacityUnits: "5"
-          WriteCapacityUnits: "5"
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 
 #  Outputs:
 #     NewOutput:

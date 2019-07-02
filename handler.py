@@ -8,6 +8,8 @@ def hello(event, context):
     for entry in d["entries"]:
         feed_links.insert(0, entry.link)
 
+    insert_db(feed_links)
+
     return feed_links
 
     # Use this code if you don't use the http event with the LAMBDA-PROXY
@@ -18,3 +20,15 @@ def hello(event, context):
         "event": event
     }
     """
+
+def insert_db(feed_links):
+    db = boto3.resource("dynamodb")
+    table = db.Table("testdb")
+
+    for feed_link in feed_links:
+        table.update_item(
+            Key={
+                "url": feed_link
+            }
+        )
+
